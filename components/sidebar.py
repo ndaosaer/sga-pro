@@ -21,6 +21,7 @@ NAV_BY_ROLE = {
         ]),
         ("Outils", [
             {"icon":"⚡", "label":"Appel Rapide",    "href":"/appel"},
+            {"icon":"₣",  "label":"Paiements",       "href":"/paiements"},
             {"icon":"🔔", "label":"Alertes",         "href":"/alertes"},
             {"icon":"📄", "label":"Bulletins PDF",   "href":"/bulletin"},
             {"icon":"📅", "label":"Calendrier",      "href":"/calendrier"},
@@ -28,6 +29,8 @@ NAV_BY_ROLE = {
         ]),
         ("Admin", [
             {"icon":"👥", "label":"Gestion comptes", "href":"/gestion-comptes"},
+            {"icon":"◇",  "label":"Concours",        "href":"/admin-concours"},
+            {"icon":"◈",  "label":"TB Direction",    "href":"/direction"},
         ]),
     ],
     "teacher": [

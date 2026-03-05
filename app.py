@@ -14,13 +14,17 @@ app = Dash(
 )
 server = app.server
 
-PUBLIC_PATHS = {"/accueil", "/auth", "/login"}
+PUBLIC_PATHS = {"/accueil", "/auth", "/login", "/concours"}
 
 ROLE_ROUTES = {
+    "/admin-concours":    ["admin"],
+    "/concours":          [],          # public — tous les connectes
     "/portail-etudiant":   ["student"],
     "/portail-parent":     ["parent"],
     "/portail-secretaire": ["secretary"],
     "/gestion-comptes":    ["admin"],
+    "/direction":          ["admin"],
+    "/paiements":          ["admin","teacher"],
     "/bulletin":           ["admin","teacher","student"],
     "/alertes":            ["admin","teacher"],
     "/comparateur":        ["admin","teacher"],
