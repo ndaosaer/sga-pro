@@ -186,3 +186,67 @@ class Paiement(Base):
     created_at    = Column(DateTime)
     frais         = relationship("FraisScolarite", back_populates="paiements", lazy="select")
     student       = relationship("Student", lazy="select")
+
+
+# ═══════════════════════════════════════════════
+# MODULE MESSAGERIE
+# ═══════════════════════════════════════════════
+
+class Conversation(Base):
+    """Fil de discussion entre participants."""
+    __tablename__ = "conversations"
+    id          = Column(Integer, primary_key=True, autoincrement=True)
+    sujet       = Column(String(300), nullable=False)
+    type_conv   = Column(String(20), default="prive")   # prive | groupe
+    created_by  = Column(Integer, ForeignKey("users.id"), nullable=False)
+    created_at  = Column(DateTime)
+    messages    = relationship("Message", back_populates="conversation",
+                               cascade="all, delete-orphan", lazy="select",
+                               order_by="Message.created_at")
+    participants = relationship("ConvParticipant", back_populates="conversation",
+                                cascade="all, delete-orphan", lazy="select")
+
+
+class ConvParticipant(Base):
+    """Lie un utilisateur a une conversation."""
+    __tablename__ = "conv_participants"
+    id              = Column(Integer, primary_key=True, autoincrement=True)
+    conversation_id = Column(Integer, ForeignKey("conversations.id", ondelete="CASCADE"))
+    user_id         = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
+    lu_at           = Column(DateTime, nullable=True)   # derniere lecture
+    conversation    = relationship("Conversation", back_populates="participants", lazy="select")
+    user            = relationship("User", lazy="select")
+
+
+class Message(Base):
+    """Un message dans une conversation."""
+    __tablename__ = "messages"
+    id              = Column(Integer, primary_key=True, autoincrement=True)
+    conversation_id = Column(Integer, ForeignKey("conversations.id", ondelete="CASCADE"))
+    sender_id       = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
+    contenu         = Column(Text, nullable=False)
+    piece_jointe    = Column(String(500), nullable=True)  # chemin fichier
+    pj_nom          = Column(String(200), nullable=True)  # nom original
+    pj_type         = Column(String(50),  nullable=True)  # pdf | image
+    created_at      = Column(DateTime)
+    conversation    = relationship("Conversation", back_populates="messages", lazy="select")
+    sender          = relationship("User", lazy="select")
+
+
+# ═══════════════════════════════════════════════
+# MODULE EMPLOI DU TEMPS
+# ═══════════════════════════════════════════════
+
+class Creneau(Base):
+    """Un creneau dans l'emploi du temps hebdomadaire."""
+    __tablename__ = "creneaux"
+    id           = Column(Integer, primary_key=True, autoincrement=True)
+    course_code  = Column(String(50), ForeignKey("courses.code", ondelete="CASCADE"), nullable=False)
+    jour         = Column(Integer, nullable=False)   # 0=Lundi ... 4=Vendredi
+    heure_debut  = Column(Float, nullable=False)     # ex: 8.0 = 08h00, 8.5 = 08h30
+    heure_fin    = Column(Float, nullable=False)     # ex: 10.0 = 10h00
+    salle        = Column(String(100), nullable=True)
+    enseignant   = Column(String(200), nullable=True)
+    couleur      = Column(String(7),   nullable=True)
+    created_at   = Column(DateTime)
+    course       = relationship("Course", lazy="select")

@@ -179,6 +179,19 @@ def _collect_data(db):
 # ═══════════════════════════════════════════════
 # CONSTRUCTION DU LAYOUT
 # ═══════════════════════════════════════════════
+def student_row(s, moy, rank=None):
+    col = GREEN if moy >= 12 else COPPER if moy >= 10 else RED
+    return html.Div([
+        html.Div(str(rank) if rank else "", style={"width":"24px","fontSize":"11px",
+                 "color":"var(--muted)","fontFamily":"JetBrains Mono,monospace",
+                 "flexShrink":"0"}),
+        html.Div(f"{s.prenom} {s.nom}", style={"flex":"1","fontSize":"13px","fontWeight":"600"}),
+        html.Div(f"{moy:.2f}/20", style={"fontFamily":"JetBrains Mono,monospace",
+                 "fontWeight":"700","color":col,"fontSize":"13px"}),
+    ], style={"display":"flex","alignItems":"center","gap":"12px","padding":"8px 0",
+              "borderBottom":"1px solid var(--border)"})
+
+
 def _build_layout(d):
     fin = d.get("financier")
     con = d.get("concours")
@@ -247,7 +260,8 @@ def _build_layout(d):
             text=[f"{m:.1f}" for m in moys], textposition="outside",
             textfont=dict(size=10, color="#8A8070"),
         ))
-        fig_cours.update_layout(**T, title="Moyennes par cours",
+        T2 = {k:v for k,v in T.items() if k != "yaxis"}
+        fig_cours.update_layout(**T2, title="Moyennes par cours",
                                 title_font=dict(size=13, color="#1E1A12"),
                                 yaxis=dict(**T["yaxis"], range=[0, 21]))
     else:
@@ -264,7 +278,8 @@ def _build_layout(d):
         textfont=dict(size=10),
         showlegend=True,
     ))
-    fig_mentions.update_layout(**T, title="Repartition des mentions",
+    T2 = {k:v for k,v in T.items() if k not in ("yaxis","xaxis")}
+    fig_mentions.update_layout(**T2, title="Repartition des mentions",
                                title_font=dict(size=13, color="#1E1A12"),
                                legend=dict(font=dict(size=9, color="#8A8070"),
                                            orientation="v", x=1, y=0.5))
@@ -299,18 +314,6 @@ def _build_layout(d):
     ], className="sga-card", style={"marginBottom":"20px"})
 
     # ── Top 5 / Bottom 5 ──
-    def student_row(s, moy, rank=None):
-        col = GREEN if moy >= 12 else COPPER if moy >= 10 else RED
-        return html.Div([
-            html.Div(str(rank) if rank else "", style={"width":"24px","fontSize":"11px",
-                     "color":"var(--muted)","fontFamily":"JetBrains Mono,monospace",
-                     "flexShrink":"0"}),
-            html.Div(f"{s.prenom} {s.nom}", style={"flex":"1","fontSize":"13px","fontWeight":"600"}),
-            html.Div(f"{moy:.2f}/20", style={"fontFamily":"JetBrains Mono,monospace",
-                     "fontWeight":"700","color":col,"fontSize":"13px"}),
-        ], style={"display":"flex","alignItems":"center","gap":"12px","padding":"8px 0",
-                  "borderBottom":"1px solid var(--border)"})
-
     classement = html.Div([
         html.Div([
             html.Div("Top 5 etudiants", className="sga-card-title", style={"marginBottom":"12px"}),

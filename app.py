@@ -24,7 +24,10 @@ ROLE_ROUTES = {
     "/portail-secretaire": ["secretary"],
     "/gestion-comptes":    ["admin"],
     "/direction":          ["admin"],
+    "/rapports":           ["admin"],
     "/paiements":          ["admin","teacher"],
+    "/messagerie":         [],
+    "/emploi-du-temps":    ["admin","teacher","student","secretary"],
     "/bulletin":           ["admin","teacher","student"],
     "/alertes":            ["admin","teacher"],
     "/comparateur":        ["admin","teacher"],
@@ -36,8 +39,8 @@ ROLE_ROUTES = {
     "/etudiants":          ["admin","teacher"],
 }
 
-SIDEBAR_ROLES = {"admin","teacher"}
-NO_SIDEBAR    = {"/portail-etudiant","/portail-parent","/portail-secretaire"}
+SIDEBAR_ROLES = {"admin","teacher","secretary","student","parent"}
+NO_SIDEBAR    = set()  # tous les roles connectes ont la sidebar
 
 app.layout = html.Div([
     dcc.Location(id="url", refresh=False),
@@ -62,7 +65,7 @@ def render_shell(path, session):
     role     = session.get("role","")
     username = session.get("username","")
 
-    if path in ROLE_ROUTES and role not in ROLE_ROUTES[path]:
+    if path in ROLE_ROUTES and ROLE_ROUTES[path] and role not in ROLE_ROUTES[path]:
         return html.Div([
             html.Div([
                 html.Div("⛔", style={"fontSize":"64px","textAlign":"center","marginBottom":"16px"}),

@@ -22,15 +22,18 @@ NAV_BY_ROLE = {
         ("Outils", [
             {"icon":"⚡", "label":"Appel Rapide",    "href":"/appel"},
             {"icon":"₣",  "label":"Paiements",       "href":"/paiements"},
+            {"icon":"✉",  "label":"Messagerie",      "href":"/messagerie"},
             {"icon":"🔔", "label":"Alertes",         "href":"/alertes"},
             {"icon":"📄", "label":"Bulletins PDF",   "href":"/bulletin"},
             {"icon":"📅", "label":"Calendrier",      "href":"/calendrier"},
+            {"icon":"🗓",  "label":"Emploi du temps","href":"/emploi-du-temps"},
             {"icon":"⚖",  "label":"Comparateur",    "href":"/comparateur"},
         ]),
         ("Admin", [
             {"icon":"👥", "label":"Gestion comptes", "href":"/gestion-comptes"},
             {"icon":"◇",  "label":"Concours",        "href":"/admin-concours"},
             {"icon":"◈",  "label":"TB Direction",    "href":"/direction"},
+            {"icon":"📊", "label":"Rapports PDF",   "href":"/rapports"},
         ]),
     ],
     "teacher": [
@@ -45,7 +48,28 @@ NAV_BY_ROLE = {
             {"icon":"⚡", "label":"Appel Rapide",   "href":"/appel"},
             {"icon":"📄", "label":"Bulletins PDF",  "href":"/bulletin"},
             {"icon":"📅", "label":"Calendrier",     "href":"/calendrier"},
+            {"icon":"🗓",  "label":"Emploi du temps","href":"/emploi-du-temps"},
             {"icon":"🔔", "label":"Alertes",        "href":"/alertes"},
+            {"icon":"✉",  "label":"Messagerie",     "href":"/messagerie"},
+        ]),
+    ],
+    "secretary": [
+        ("Navigation", [
+            {"icon":"◈",  "label":"Secretariat",   "href":"/portail-secretaire"},
+            {"icon":"✉",  "label":"Messagerie",    "href":"/messagerie"},
+        ]),
+    ],
+    "student": [
+        ("Navigation", [
+            {"icon":"◈",  "label":"Mon espace",    "href":"/portail-etudiant"},
+            {"icon":"🗓",  "label":"Emploi du temps","href":"/emploi-du-temps"},
+            {"icon":"✉",  "label":"Messagerie",    "href":"/messagerie"},
+        ]),
+    ],
+    "parent": [
+        ("Navigation", [
+            {"icon":"◎",  "label":"Mon espace",    "href":"/portail-parent"},
+            {"icon":"✉",  "label":"Messagerie",    "href":"/messagerie"},
         ]),
     ],
 }
