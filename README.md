@@ -405,4 +405,4 @@ Projet prive — tous droits reserves.
 
 contact@sgapro.io
 ## Lien de l'application
-web-production-c572c8.up.railway.app
+https://web-production-c572c8.up.railway.app/messagerie
