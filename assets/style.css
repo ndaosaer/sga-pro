@@ -275,12 +275,6 @@ body {
 .sga-input::placeholder { color: var(--text-muted) !important; }
 
 .Select-control { background: var(--bg-primary) !important; border: 1px solid var(--border) !important; border-radius: 3px !important; }
-.Select-menu-outer { background: var(--bg-card) !important; border: 1px solid var(--border) !important; z-index: 999 !important; }
-.Select-option { background: var(--bg-card) !important; color: var(--text-primary) !important; font-size: 13px !important; }
-.Select-option:hover { background: var(--bg-hover) !important; color: var(--gold) !important; }
-.Select-option.is-selected { background: rgba(184,146,42,0.1) !important; color: var(--gold) !important; }
-.Select-value-label, .Select--single > .Select-control .Select-value { color: var(--text-primary) !important; }
-.Select-placeholder { color: var(--text-muted) !important; }
 
 .sga-label {
   font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
@@ -713,16 +707,19 @@ body {
 /* Menu deroulant */
 .Select-menu-outer {
   background: var(--bg-card) !important;
-  border: 1px solid var(--border) !important;
-  border-top: none !important;
-  border-radius: 0 0 3px 3px !important;
-  box-shadow: 0 8px 24px rgba(30,26,18,0.12) !important;
-  z-index: 9999 !important;
-  margin-top: -1px !important;
+  border: 1px solid rgba(184,146,42,0.3) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 12px 36px rgba(30,26,18,0.18), 0 2px 8px rgba(30,26,18,0.1) !important;
+  z-index: 99999 !important;
+  margin-top: 4px !important;
+  overflow: hidden !important;
+  position: absolute !important;
 }
 
 .Select-menu {
-  max-height: 220px !important;
+  max-height: 240px !important;
+  overflow-y: auto !important;
+  padding: 4px 0 !important;
 }
 
 /* Options */
@@ -816,4 +813,48 @@ body {
 .VirtualizedSelectSelectedOption {
   background: rgba(184,146,42,0.12) !important;
   font-weight: 600 !important;
+}
+
+/* ── DROPDOWN OVERFLOW FIX ── */
+/* Empecher les parents de couper le menu deroulant */
+.dash-dropdown {
+  position: relative !important;
+  z-index: 100 !important;
+}
+.Select.is-open {
+  z-index: 99999 !important;
+  position: relative !important;
+}
+/* Tous les conteneurs flex/card ne doivent pas couper */
+.sga-card,
+.main-content,
+[style*="overflow: hidden"] {
+  overflow: visible !important;
+}
+/* Options — fond solide, lisibles */
+.Select-option {
+  background: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  font-size: 13px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  padding: 11px 16px !important;
+  border-bottom: 1px solid rgba(184,146,42,0.06) !important;
+  transition: background 0.1s, color 0.1s !important;
+  line-height: 1.4 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+.Select-option:hover,
+.Select-option.is-focused {
+  background: rgba(184,146,42,0.1) !important;
+  color: var(--gold) !important;
+}
+.Select-option.is-selected {
+  background: rgba(184,146,42,0.15) !important;
+  color: var(--gold) !important;
+  font-weight: 600 !important;
+}
+.Select-option:last-child {
+  border-bottom: none !important;
 }

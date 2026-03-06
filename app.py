@@ -1,4 +1,4 @@
-﻿import dash
+import dash
 from dash import Dash, html, dcc, Input, Output
 import dash_bootstrap_components as dbc
 from database import init_db, init_users
@@ -71,7 +71,7 @@ def render_shell(path, session):
     if path in ROLE_ROUTES and ROLE_ROUTES[path] and role not in ROLE_ROUTES[path]:
         return html.Div([
             html.Div([
-                html.Div("", style={"fontSize":"64px","textAlign":"center","marginBottom":"16px"}),
+                html.Div("⛔", style={"fontSize":"64px","textAlign":"center","marginBottom":"16px"}),
                 html.Div("Accès non autorisé",
                          style={"fontFamily":"Times New Roman,serif","fontSize":"32px",
                                 "fontWeight":"700","textAlign":"center",
@@ -104,6 +104,9 @@ def render_shell(path, session):
 
 
 if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 8050))
+    debug = os.environ.get("RAILWAY_ENVIRONMENT") is None
     init_db()
     init_users()
     import threading, webbrowser
