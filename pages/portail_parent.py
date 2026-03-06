@@ -58,15 +58,15 @@ def render(t):
         alertes = []
         if moy < 10:
             alertes.append(html.Div(
-                f"⚠ Moyenne insuffisante : {moy:.2f}/20 — Contactez l'établissement.",
+                f" Moyenne insuffisante : {moy:.2f}/20 — Contactez l'établissement.",
                 className="sga-alert sga-alert-danger", style={"marginBottom":"12px"}))
         if taux > 20:
             alertes.append(html.Div(
-                f"⚠ Taux d'absence élevé : {taux}% — Au-delà du seuil autorisé de 20%.",
+                f" Taux d'absence élevé : {taux}% — Au-delà du seuil autorisé de 20%.",
                 className="sga-alert sga-alert-warning", style={"marginBottom":"12px"}))
         if not alertes:
             alertes.append(html.Div(
-                "✓ Tout va bien — Aucune alerte pour votre enfant.",
+                " Tout va bien — Aucune alerte pour votre enfant.",
                 className="sga-alert sga-alert-success", style={"marginBottom":"12px"}))
 
         # Fiche enfant

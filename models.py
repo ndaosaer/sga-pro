@@ -21,6 +21,8 @@ class Student(Base):
     prenom         = Column(String(100), nullable=False)
     email          = Column(String(200), unique=True, nullable=False)
     date_naissance = Column(Date, nullable=True)
+    classe_id      = Column(Integer, ForeignKey('classes.id', ondelete='SET NULL'), nullable=True)
+    classe         = relationship('Classe', back_populates='etudiants', lazy='select')
     actif          = Column(Boolean, default=True)
     created_at     = Column(DateTime)
     attendances    = relationship("Attendance", back_populates="student", cascade="all, delete-orphan", lazy="select")
@@ -249,4 +251,53 @@ class Creneau(Base):
     enseignant   = Column(String(200), nullable=True)
     couleur      = Column(String(7),   nullable=True)
     created_at   = Column(DateTime)
+    classe_id    = Column(Integer, ForeignKey('classes.id', ondelete='SET NULL'), nullable=True)
     course       = relationship("Course", lazy="select")
+    classe       = relationship("Classe", back_populates="creneaux", lazy="select")
+
+
+# ═══════════════════════════════════════════════
+# MODULE CLASSES / NIVEAUX
+# ═══════════════════════════════════════════════
+
+class Niveau(Base):
+    """Niveau academique : Licence, Master, Doctorat."""
+    __tablename__ = "niveaux"
+    id       = Column(Integer, primary_key=True, autoincrement=True)
+    nom      = Column(String(100), nullable=False)   # ex: Licence, Master
+    abrev    = Column(String(20),  nullable=False)   # ex: L, M, D
+    ordre    = Column(Integer, default=1)            # pour tri
+    classes  = relationship("Classe", back_populates="niveau",
+                            cascade="all, delete-orphan", lazy="select")
+
+
+class Classe(Base):
+    """Une classe = un niveau + une filiere + une annee. ex: L3 Statistique."""
+    __tablename__ = "classes"
+    id         = Column(Integer, primary_key=True, autoincrement=True)
+    nom        = Column(String(150), nullable=False)    # ex: L3 Statistique
+    code       = Column(String(30),  nullable=False, unique=True)  # ex: L3-STAT
+    niveau_id  = Column(Integer, ForeignKey("niveaux.id"), nullable=False)
+    filiere    = Column(String(100), nullable=True)     # ex: Statistique, Economie
+    annee      = Column(String(9),   nullable=True)     # ex: 2025-2026
+    effectif_max = Column(Integer,   default=40)
+    actif      = Column(Boolean,     default=True)
+    couleur    = Column(String(7),   nullable=True)     # couleur UI
+    created_at = Column(DateTime)
+    niveau     = relationship("Niveau", back_populates="classes", lazy="select")
+    etudiants  = relationship("Student", back_populates="classe", lazy="select")
+    cours_classes = relationship("CoursClasse", back_populates="classe",
+                                 cascade="all, delete-orphan", lazy="select")
+    creneaux   = relationship("Creneau", back_populates="classe", lazy="select")
+
+
+class CoursClasse(Base):
+    """Lien entre un cours et une classe (avec enseignant specifique si besoin)."""
+    __tablename__ = "cours_classes"
+    id          = Column(Integer, primary_key=True, autoincrement=True)
+    course_code = Column(String(50), ForeignKey("courses.code", ondelete="CASCADE"))
+    classe_id   = Column(Integer,   ForeignKey("classes.id",   ondelete="CASCADE"))
+    enseignant  = Column(String(200), nullable=True)  # surcharge si different du cours
+    created_at  = Column(DateTime)
+    course      = relationship("Course", lazy="select")
+    classe      = relationship("Classe", back_populates="cours_classes", lazy="select")

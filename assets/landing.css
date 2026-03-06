@@ -292,3 +292,134 @@
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
+
+
+/* ════════════════════════════════════════
+   LANDING — Polish v2
+════════════════════════════════════════ */
+
+/* Hero — gradient de fond plus riche */
+.lp-hero {
+  background: radial-gradient(
+    ellipse 80% 60% at 15% 50%,
+    rgba(184,146,42,0.05) 0%,
+    transparent 60%
+  ), var(--bg-primary) !important;
+}
+
+/* Grille hero — plus visible */
+.lp-grid-bg {
+  background-image:
+    linear-gradient(rgba(184,146,42,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184,146,42,0.07) 1px, transparent 1px) !important;
+  mask-image: radial-gradient(ellipse at 15% 50%, black 0%, transparent 70%) !important;
+}
+
+/* H1 — animation d'apparition */
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.lp-h1 {
+  animation: heroIn 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.lp-eyebrow {
+  animation: heroIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.lp-hero-sub {
+  animation: heroIn 0.7s 0.1s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.lp-hero-ctas {
+  animation: heroIn 0.7s 0.2s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.lp-stats {
+  animation: heroIn 0.7s 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* Mockup — ombre plus profonde */
+.lp-mockup {
+  box-shadow:
+    0 32px 80px rgba(30,26,18,0.18),
+    0 8px 24px rgba(30,26,18,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.6) !important;
+}
+
+/* Feature cards — hover plus expressif */
+.lp-feat-card {
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+.lp-feat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(30,26,18,0.08);
+  z-index: 1;
+}
+
+/* Stats bar — hover */
+.lp-stats > div:not(.lp-stat-sep) {
+  transition: background 0.15s ease;
+}
+.lp-stats > div:not(.lp-stat-sep):hover {
+  background: rgba(184,146,42,0.05);
+}
+.lp-stat-val {
+  transition: color 0.2s ease;
+}
+.lp-stats > div:not(.lp-stat-sep):hover .lp-stat-val {
+  color: var(--gold-light);
+}
+
+/* Navbar — shadow au scroll (simulé avec box-shadow) */
+.lp-nav {
+  transition: box-shadow 0.2s ease;
+  box-shadow: 0 1px 20px rgba(30,26,18,0.08) !important;
+}
+
+/* Btn primary — plus impactant */
+.lp-btn-primary {
+  box-shadow: 0 4px 16px rgba(184,146,42,0.2);
+}
+.lp-btn-primary:hover {
+  box-shadow: 0 8px 32px rgba(184,146,42,0.35) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Plans pricing — hover plus net */
+.lp-plan {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.lp-plan:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 16px 48px rgba(30,26,18,0.1) !important;
+}
+
+/* Ticker — vitesse adaptée */
+.lp-ticker-inner {
+  animation: lpTicker 30s linear infinite !important;
+}
+
+/* Pain/Gain list — animation d'entrée */
+.lp-pain-list li, .lp-gain-list li {
+  transition: transform 0.15s ease;
+}
+.lp-pain-list li:hover, .lp-gain-list li:hover {
+  transform: translateX(4px);
+}
+
+/* Section eyebrow — ligne animée */
+.lp-section-eyebrow::before {
+  transition: width 0.3s ease;
+  width: 0;
+  animation: lineGrow 0.6s 0.3s ease forwards;
+}
+@keyframes lineGrow {
+  to { width: 24px; }
+}
+
+/* Footer links */
+.lp-footer-link {
+  transition: color 0.15s ease, padding-left 0.15s ease !important;
+}
+.lp-footer-link:hover {
+  color: rgba(245,240,230,0.9) !important;
+  padding-left: 4px;
+}

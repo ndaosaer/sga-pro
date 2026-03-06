@@ -26,7 +26,8 @@ ANNEE  = "2025-2026"
 
 def layout():
     return html.Div([
-        dcc.Interval(id="dir-interval", interval=120_000, n_intervals=0),
+        dcc.Interval(id="dir-interval", interval=120_000, n_intervals=0, disabled=False),
+        dcc.Store(id="dir-loaded", data=False),
 
         html.Div([
             html.Div([
@@ -38,13 +39,31 @@ def layout():
                      style={"fontSize":"11px","color":"var(--muted)","letterSpacing":"1px"}),
         ], className="topbar"),
 
-        html.Div(id="dir-content", style={"padding":"24px"}),
+        html.Div([
+            html.Div(id="dir-content", style={"padding":"24px"}),
+            html.Div(id="dir-skeleton", children=[
+                html.Div(style={"height":"80px","background":"var(--bg-card)",
+                         "borderRadius":"6px","marginBottom":"16px",
+                         "animation":"pulse 1.5s infinite",
+                         "border":"1px solid var(--border)"}),
+                html.Div([
+                    html.Div(style={"height":"260px","background":"var(--bg-card)",
+                             "borderRadius":"6px","flex":"2",
+                             "border":"1px solid var(--border)"}),
+                    html.Div(style={"height":"260px","background":"var(--bg-card)",
+                             "borderRadius":"6px","flex":"1",
+                             "border":"1px solid var(--border)"}),
+                ], style={"display":"flex","gap":"20px","marginBottom":"16px",
+                          "padding":"0 24px"}),
+            ], style={"padding":"24px"}),
+        ]),
     ])
 
 
 @callback(
     Output("dir-content",      "children"),
     Output("dir-last-update",  "children"),
+    Output("dir-skeleton",     "style"),
     Input("dir-interval",      "n_intervals"),
 )
 def render(n):
@@ -55,7 +74,7 @@ def render(n):
         db.close()
 
     last = f"Mis a jour a {datetime.now().strftime('%H:%M:%S')}"
-    return _build_layout(data), last
+    return _build_layout(data), last, {"display":"none","padding":"24px"}
 
 
 # ═══════════════════════════════════════════════

@@ -29,7 +29,7 @@ def layout():
     return html.Div([
         dcc.Store(id="msg-refresh",  data=0),
         dcc.Store(id="msg-conv-id",  data=None),
-        dcc.Interval(id="msg-poll",  interval=15_000, n_intervals=0),
+        dcc.Interval(id="msg-poll",  interval=30_000, n_intervals=0),
 
         html.Div([
             html.Div([

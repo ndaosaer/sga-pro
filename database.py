@@ -4,7 +4,15 @@ from models import Base
 from werkzeug.security import generate_password_hash
 
 DATABASE_URL = "sqlite:///sga_pro.db"
-engine = create_engine(DATABASE_URL, echo=False, connect_args={"check_same_thread": False})
+engine = create_engine(
+    DATABASE_URL,
+    echo=False,
+    connect_args={"check_same_thread": False},
+    pool_size=10,          # connexions maintenues ouvertes
+    max_overflow=20,       # connexions supplementaires si besoin
+    pool_pre_ping=True,    # verifie la connexion avant usage
+    pool_recycle=300,      # recycle les connexions apres 5 min
+)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
 def init_db():
@@ -25,6 +33,11 @@ def _seed_default_data():
     import random
     db = SessionLocal()
     try:
+        # ── Guard : si la DB a deja ete peuplee, on ne refait rien ──────
+        if db.query(User).count() > 5:
+            db.close()
+            return  # base deja initialisee, on saute tout le seed
+
         # ── Comptes utilisateurs ──────────────────────────────────────────
         def add_user(username, pwd, role, linked_id=None):
             if not db.query(User).filter_by(username=username).first():

@@ -35,7 +35,7 @@ def layout():
                         options=cours_opts,
                         placeholder="Choisir le cours…",
                         clearable=False,
-                        style={"fontSize":"15px"},
+                        style={"flex":"1","minWidth":"260px","fontSize":"13px"},
                     ),
                     dcc.Input(id="ar-duree", type="number", placeholder="Durée (h)",
                               min=0.5, step=0.5, value=2.0,
